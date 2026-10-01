@@ -1,0 +1,120 @@
+{
+  "name": "Mekanik AI",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Halo bray! 🔧 Gue Mekanik AI, spesialis motor matic Honda lu. Mau nanya soal mesin, naik spek, CVT, dan servis motor Vario, Beat, atau Scoopy hari ini?",
+        "options": {}
+      },
+      "id": "43130073-da3d-44b5-9bb3-ce92c8e12095",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "00ff60c2-92f8-4783-99d6-8d44f95a56ab"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Kamu adalah asisten bengkel motor matic Honda yang ahli. Tugasmu hanya menjawab pertanyaan seputar mesin, naik spek, CVT, dan servis motor Vario, Beat, atau Scoopy. Jangan menjawab pertanyaan di luar otomotif."
+        }
+      },
+      "id": "ddba762e-a15d-4c22-8af4-b23ebd4d1798",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        192,
+        0
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "1ac8fd14-b55f-4124-81d2-d6387884c77c",
+      "name": "Simple Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        336,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.5-flash",
+        "options": {}
+      },
+      "id": "59b1465b-bd76-4365-92c5-0b11de8655ed",
+      "name": "Gemini-3.5-flash",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        192,
+        176
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "f84zakgtUpgk6jDS",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini-3.5-flash": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  },
+  "versionId": "abedc882-685a-4a56-82ce-8d4587386779",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "33462b3aa0019b17ae21d48dda6fe8ea58889e90d1d789f4068662d97d85d941"
+  },
+  "nodeGroups": [],
+  "id": "dj6Q7JTM2MBI4acf",
+  "tags": []
+}
